@@ -377,7 +377,7 @@ function createMediaRow(media = createEmptyMedia()) {
 
   srcInput.value = media.src || "";
   typeInput.value = media.type || "image";
-  stageInput.value = media.stage || (projectSection.value === "wips" ? "wip" : "finished");
+  stageInput.value = media.stage || (projectSection.value === "wips" ? "wip" : "final");
   altInput.value = media.alt || "";
   captionInput.value = media.caption || "";
   posterInput.value = media.poster || "";
@@ -388,7 +388,7 @@ function createMediaRow(media = createEmptyMedia()) {
       {
         src: srcInput.value.trim(),
         type: typeInput.value || "image",
-        stage: stageInput.value || (projectSection.value === "wips" ? "wip" : "finished"),
+        stage: stageInput.value || (projectSection.value === "wips" ? "wip" : "final"),
         alt: altInput.value.trim() || `${projectTitle.value.trim() || "Project"} media item`,
         poster: posterInput.value.trim(),
       },
@@ -470,7 +470,7 @@ function readMediaRows() {
       return {
         src,
         type: row.querySelector(".media-type")?.value || "image",
-        stage: row.querySelector(".media-stage")?.value || (projectSection.value === "wips" ? "wip" : "finished"),
+        stage: row.querySelector(".media-stage")?.value || (projectSection.value === "wips" ? "wip" : "final"),
         alt: row.querySelector(".media-alt")?.value.trim() || "",
         caption: row.querySelector(".media-caption")?.value.trim() || "",
         poster: row.querySelector(".media-poster")?.value.trim() || "",
@@ -534,7 +534,34 @@ async function refreshProjects(preserveSelection = true) {
 
   try {
     const remoteProjects = await portfolioAdminApi.fetchProjects({ includeDrafts: true });
-    adminState.projects = sortProjects(remoteProjects);
+    const localProjects = Array.isArray(window.portfolioItems) ? window.portfolioItems : [];
+    const localRevision = Date.parse(window.PORTFOLIO_DATA_REVISION || "") || 0;
+    const remoteBySlug = new Map(remoteProjects.map((project) => [project.slug, project]));
+    const localSlugs = new Set(localProjects.map((project) => project.slug));
+    const editableProjects = localProjects.map((localProject) => {
+      const remoteProject = remoteBySlug.get(localProject.slug);
+
+      if (!remoteProject) {
+        return { ...localProject, id: "" };
+      }
+
+      const remoteIsNewer = (Date.parse(remoteProject.updatedAt || "") || 0) > localRevision;
+
+      return {
+        ...(remoteIsNewer ? localProject : remoteProject),
+        ...(remoteIsNewer ? remoteProject : localProject),
+        id: remoteProject.id,
+        slug: localProject.slug,
+      };
+    });
+
+    remoteProjects.forEach((remoteProject) => {
+      if (!localSlugs.has(remoteProject.slug)) {
+        editableProjects.push(remoteProject);
+      }
+    });
+
+    adminState.projects = sortProjects(editableProjects);
 
     const nextProject =
       adminState.projects.find((project) => getSelectedProjectKey(project) === currentKey) ||
@@ -543,7 +570,7 @@ async function refreshProjects(preserveSelection = true) {
 
     renderProjectList();
     syncFormWithProject(nextProject);
-    setAdminStatus(`Loaded ${adminState.projects.length} project${adminState.projects.length === 1 ? "" : "s"}.`);
+    setAdminStatus(`Loaded ${adminState.projects.length} editable project${adminState.projects.length === 1 ? "" : "s"}. Local reconciled projects are ready to save even before import.`);
   } catch (error) {
     console.error(error);
     setAdminStatus(error.message || "Could not load remote projects.", "error");

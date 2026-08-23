@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Work — Jack Sockwell, 3D Character Artist</title>
-  <meta name="description" content="Selected character art, production work, studies, and game credits by 3D character artist Jack Sockwell." />
+  <title>Work — Jack Sockwell, 3D Generalist / Game Dev</title>
+  <meta name="description" content="A complete timeline of character art, environments, game development, production work, studies, process, video, and credits by Jack Sockwell." />
   <meta name="theme-color" content="#15131a" />
   <link rel="canonical" href="https://jacksockwell.com/portfolio.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="site-v2.css?v=20260823-dark1" />
+  <link rel="stylesheet" href="site-v2.css?v=20260823-reconciled2" />
 </head>
 <body class="v2-site v2-portfolio">
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="site-header">
     <a class="site-brand" href="index.html" aria-label="Jack Sockwell, home">
-      <span class="brand-mark" aria-hidden="true">JS</span>
-      <span class="brand-copy"><strong>Jack Sockwell</strong><span>3D Character Artist</span></span>
+      <span class="brand-mark"><img src="JSICON_500x500.png" alt="" /></span>
+      <span class="brand-copy"><strong>Jack Sockwell</strong><span>3D Generalist / Game Dev</span></span>
     </a>
     <nav class="site-nav" aria-label="Primary navigation">
       <a class="is-current" href="portfolio.html" aria-current="page">Work</a>
@@ -32,42 +32,48 @@
       <h1>Built to feel alive.</h1>
       <div class="work-hero-foot">
         <p>Characters, scenes, fan studies, production pieces, and the process behind them. Open any project to see the full set.</p>
-        <span><b id="portfolioProjectCount">50</b> projects <i aria-hidden="true">✦</i> <b id="portfolioMediaCount">272</b> images &amp; breakdowns</span>
+        <span><b id="portfolioProjectCount">61</b> projects <i aria-hidden="true">✦</i> <b id="portfolioMediaCount">307</b> media items</span>
       </div>
     </section>
 
-    <section class="portfolio-workspace" id="portfolioLauncher" aria-label="Portfolio sections">
+    <section class="portfolio-workspace" id="portfolioLauncherV3" aria-label="Portfolio sections">
       <div class="portfolio-toolbar">
         <nav class="portfolio-tabs" aria-label="Filter portfolio">
-          <button class="portfolio-tab is-active" data-portfolio-view="artwork" type="button">Selected work</button>
-          <button class="portfolio-tab" data-portfolio-view="wips" type="button">WIPs &amp; process</button>
-          <button class="portfolio-tab" data-portfolio-view="resume" type="button">Game credits</button>
+          <button class="portfolio-tab is-active" data-portfolio-v3-view="all" type="button" role="tab" aria-selected="true">All work</button>
+          <button class="portfolio-tab" data-portfolio-v3-view="artwork" type="button" role="tab" aria-selected="false">Selected work</button>
+          <button class="portfolio-tab" data-portfolio-v3-view="wips" type="button" role="tab" aria-selected="false">WIPs &amp; process</button>
+          <button class="portfolio-tab" data-portfolio-v3-view="resume" type="button" role="tab" aria-selected="false">Game credits</button>
         </nav>
         <p>Newest first · Click a card for the complete project and process</p>
       </div>
 
-      <div class="portfolio-content" id="portfolioContent">
-        <section class="portfolio-panel" data-portfolio-panel="artwork" aria-labelledby="portfolio-artwork-heading">
-          <h2 class="sr-only" id="portfolio-artwork-heading">Selected artwork</h2>
-          <div class="portfolio-timeline" id="portfolioPostGrid" aria-label="Portfolio projects"></div>
+      <div class="portfolio-content" id="portfolioContentV3">
+        <section class="portfolio-panel" data-portfolio-v3-panel="all" aria-labelledby="portfolio-all-heading">
+          <h2 class="sr-only" id="portfolio-all-heading">All portfolio projects</h2>
+          <div class="portfolio-timeline" id="portfolioAllGrid" aria-label="Complete portfolio timeline"></div>
         </section>
 
-        <section class="portfolio-panel" data-portfolio-panel="wips" aria-labelledby="portfolio-wips-heading" hidden>
+        <section class="portfolio-panel" data-portfolio-v3-panel="artwork" aria-labelledby="portfolio-artwork-heading" hidden>
+          <h2 class="sr-only" id="portfolio-artwork-heading">Selected artwork</h2>
+          <div class="portfolio-timeline" id="portfolioSelectedGrid" aria-label="Selected portfolio projects"></div>
+        </section>
+
+        <section class="portfolio-panel" data-portfolio-v3-panel="wips" aria-labelledby="portfolio-wips-heading" hidden>
           <div class="panel-intro">
             <p class="eyebrow">Behind the final render</p>
             <h2 id="portfolio-wips-heading">Work in progress</h2>
             <p>Rough passes, viewport work, and ongoing studies live here without crowding the finished wall.</p>
           </div>
-          <div class="portfolio-timeline" id="portfolioWipGrid" aria-label="Work in progress projects"></div>
+          <div class="portfolio-timeline" id="portfolioWipGridV3" aria-label="Work in progress projects"></div>
         </section>
 
-        <section class="portfolio-panel" data-portfolio-panel="resume" aria-labelledby="portfolio-resume-heading" hidden>
+        <section class="portfolio-panel" data-portfolio-v3-panel="resume" aria-labelledby="portfolio-resume-heading" hidden>
           <div class="panel-intro">
             <p class="eyebrow">Production experience</p>
             <h2 id="portfolio-resume-heading">Game credits</h2>
             <p>Public projects where I contributed character art and production work.</p>
           </div>
-          <div class="portfolio-credit-grid" id="portfolioCreditGrid" aria-label="Games and project contributions"></div>
+          <div class="portfolio-credit-grid" id="portfolioCreditGridV3" aria-label="Games and project contributions"></div>
         </section>
       </div>
     </section>
@@ -79,23 +85,25 @@
     </section>
   </main>
 
-  <div class="portfolio-lightbox" id="portfolioLightbox" hidden role="dialog" aria-modal="true" aria-labelledby="portfolioLightboxTitle">
-    <button class="portfolio-lightbox-close" id="portfolioLightboxClose" type="button" aria-label="Close project viewer">Close <span aria-hidden="true">×</span></button>
+  <div class="portfolio-lightbox" id="portfolioLightboxV3" hidden role="dialog" aria-modal="true" aria-labelledby="portfolioLightboxTitleV3">
+    <button class="portfolio-lightbox-close" id="portfolioLightboxCloseV3" type="button" aria-label="Close project viewer">Close <span aria-hidden="true">×</span></button>
     <figure class="portfolio-lightbox-frame">
       <div class="portfolio-lightbox-media-shell">
-        <button class="portfolio-lightbox-nav portfolio-lightbox-prev" id="portfolioLightboxPrev" type="button" aria-label="Previous image">&larr;</button>
-        <img class="portfolio-lightbox-media" id="portfolioLightboxImage" src="" alt="Portfolio enlarged image" />
-        <video class="portfolio-lightbox-media" id="portfolioLightboxVideo" controls playsinline hidden></video>
-        <button class="portfolio-lightbox-nav portfolio-lightbox-next" id="portfolioLightboxNext" type="button" aria-label="Next image">&rarr;</button>
+        <button class="portfolio-lightbox-nav portfolio-lightbox-prev" id="portfolioLightboxPrevV3" type="button" aria-label="Previous media">&larr;</button>
+        <img class="portfolio-lightbox-media" id="portfolioLightboxImageV3" alt="Portfolio enlarged image" />
+        <video class="portfolio-lightbox-media" id="portfolioLightboxVideoV3" controls playsinline preload="metadata" hidden></video>
+        <button class="portfolio-lightbox-nav portfolio-lightbox-next" id="portfolioLightboxNextV3" type="button" aria-label="Next media">&rarr;</button>
       </div>
       <figcaption class="portfolio-lightbox-caption">
-        <p class="portfolio-lightbox-counter" id="portfolioLightboxCounter">1 / 1</p>
-        <div class="portfolio-lightbox-stage-filters" id="portfolioLightboxStageFilters" hidden></div>
-        <h2 class="portfolio-lightbox-title" id="portfolioLightboxTitle">Selected Work</h2>
-        <p class="portfolio-lightbox-meta" id="portfolioLightboxMeta"></p>
-        <p class="portfolio-lightbox-details" id="portfolioLightboxCaption"></p>
+        <p class="portfolio-lightbox-counter" id="portfolioLightboxCounterV3" aria-live="polite">1 / 1</p>
+        <div class="portfolio-lightbox-stage-filters" id="portfolioLightboxStageFiltersV3" hidden></div>
+        <h2 class="portfolio-lightbox-title" id="portfolioLightboxTitleV3">Project</h2>
+        <p class="portfolio-lightbox-meta" id="portfolioLightboxMetaV3"></p>
+        <p class="portfolio-lightbox-details" id="portfolioLightboxCaptionV3"></p>
+        <p class="portfolio-lightbox-credit" id="portfolioLightboxCreditV3" hidden></p>
+        <a class="portfolio-project-link" id="portfolioProjectLinkV3" hidden>Open project page</a>
       </figcaption>
-      <div class="portfolio-lightbox-thumbs" id="portfolioLightboxThumbs" hidden></div>
+      <div class="portfolio-lightbox-thumbs" id="portfolioLightboxThumbsV3" hidden></div>
     </figure>
   </div>
 
@@ -107,9 +115,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="supabase-config.js?v=20260823-restored1"></script>
   <script src="supabase-shared.js?v=20260823-restored2"></script>
-  <script src="portfolio-data.js?v=20260408-resume2"></script>
-  <script src="portfolio-archive-data.js?v=20260823-timeline1"></script>
-  <script src="portfolio-loader.js?v=20260823-timeline1"></script>
-  <script src="script.js?v=20260823-timeline1"></script>
+  <script src="portfolio-data.js?v=20260823-reconciled2"></script>
+  <script src="portfolio-loader.js?v=20260823-reconciled2"></script>
+  <script src="script.js?v=20260823-reconciled2"></script>
+  <script src="portfolio-v3.js?v=20260823-reconciled2"></script>
 </body>
 </html>

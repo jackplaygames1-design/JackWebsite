@@ -1,63 +1,61 @@
 (function bootstrapPortfolioFromSupabase() {
   const api = window.PortfolioSupabase;
-  const localProjects = Array.isArray(window.portfolioItems) ? window.portfolioItems : [];
-  const archiveProjects = Array.isArray(window.portfolioArchiveItems) ? window.portfolioArchiveItems : [];
-  const mediaAdditions = window.portfolioMediaAdditions && typeof window.portfolioMediaAdditions === "object"
-    ? window.portfolioMediaAdditions
-    : {};
+  const canonicalProjects = Array.isArray(window.portfolioItems) ? window.portfolioItems : [];
+  const revisionTime = Date.parse(window.PORTFOLIO_DATA_REVISION || "") || 0;
 
-  function mergeMedia(existingMedia, extraMedia) {
-    const merged = [];
-    const seenSources = new Set();
+  function projectKey(project) {
+    return String(project?.slug || project?.id || project?.title || "").trim().toLowerCase();
+  }
 
-    [...(Array.isArray(existingMedia) ? existingMedia : []), ...(Array.isArray(extraMedia) ? extraMedia : [])]
-      .forEach((media) => {
-        const source = typeof media === "string" ? media : media?.src;
+  function isNewerThanReconciliation(project) {
+    const updatedTime = Date.parse(project?.updatedAt || "");
+    return Number.isFinite(updatedTime) && updatedTime > revisionTime;
+  }
 
-        if (!source || seenSources.has(source)) {
-          return;
-        }
+  function mergeCanonicalWithRemote(remoteProjects) {
+    const remoteByKey = new Map(remoteProjects.map((project) => [projectKey(project), project]));
+    const canonicalKeys = new Set(canonicalProjects.map(projectKey));
 
-        seenSources.add(source);
-        merged.push(media);
+    const merged = canonicalProjects.map((canonical) => {
+      const remote = remoteByKey.get(projectKey(canonical));
+
+      if (!remote || !isNewerThanReconciliation(remote)) {
+        return canonical;
+      }
+
+      return {
+        ...canonical,
+        ...remote,
+        id: canonical.id,
+        slug: canonical.slug,
+        featured: canonical.featured,
+        credit: canonical.credit,
+        link: canonical.link,
+        linkLabel: canonical.linkLabel,
+      };
+    });
+
+    remoteProjects.forEach((remote) => {
+      const key = projectKey(remote);
+
+      if (!key || canonicalKeys.has(key) || !isNewerThanReconciliation(remote)) {
+        return;
+      }
+
+      merged.push({
+        ...remote,
+        id: remote.slug || remote.id,
+        featured: false,
       });
+    });
 
     return merged;
   }
 
-  function addProjectProcess(project) {
-    const additions = mediaAdditions[project?.title];
-
-    if (!Array.isArray(additions) || !additions.length) {
-      return project;
-    }
-
-    return {
-      ...project,
-      media: mergeMedia(project.media || project.images, additions),
-    };
-  }
-
-  function mergeArchiveProjects(projects) {
-    const mergedProjects = projects.map(addProjectProcess);
-    const existingTitles = new Set(mergedProjects.map((project) => project?.title).filter(Boolean));
-
-    archiveProjects.forEach((project) => {
-      if (!project?.title || existingTitles.has(project.title)) {
-        return;
-      }
-
-      existingTitles.add(project.title);
-      mergedProjects.push(addProjectProcess(project));
-    });
-
-    return mergedProjects;
-  }
-
   window.portfolioBootstrapPromise = (async () => {
     if (!api?.isConfigured()) {
-      window.portfolioItems = mergeArchiveProjects(localProjects);
-      window.portfolioSource = "local+archive";
+      window.portfolioItems = canonicalProjects;
+      window.portfolioSource = "canonical-local";
       return;
     }
 
@@ -65,16 +63,15 @@
       ? await api.fetchPublicPortfolioProjects()
       : await api.fetchPublishedProjects();
 
-    if (Array.isArray(remoteProjects) && remoteProjects.length) {
-      window.portfolioItems = mergeArchiveProjects(remoteProjects);
-      window.portfolioSource = "supabase+archive";
-    } else {
-      window.portfolioItems = mergeArchiveProjects(localProjects);
-      window.portfolioSource = "local+archive";
-    }
+    window.portfolioItems = Array.isArray(remoteProjects)
+      ? mergeCanonicalWithRemote(remoteProjects)
+      : canonicalProjects;
+    window.portfolioSource = Array.isArray(remoteProjects)
+      ? "canonical+supabase-newer-edits"
+      : "canonical-local";
   })().catch((error) => {
-    console.warn("Unable to load portfolio projects from Supabase.", error);
-    window.portfolioItems = mergeArchiveProjects(localProjects);
-    window.portfolioSource = "local+archive";
+    console.warn("Unable to load portfolio projects from Supabase; using the reconciled local source.", error);
+    window.portfolioItems = canonicalProjects;
+    window.portfolioSource = "canonical-local";
   });
 })();

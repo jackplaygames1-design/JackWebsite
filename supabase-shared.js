@@ -106,18 +106,34 @@
     const normalized = String(value || "").trim().toLowerCase();
 
     if (["finished", "final", "hero", "render", "rendered"].includes(normalized)) {
-      return "finished";
+      return "final";
     }
 
-    if (["wip", "work-in-progress", "work in progress", "process", "progress", "rough", "blockout", "sketch", "in-progress"].includes(normalized)) {
+    if (["alternate-final", "alternate final", "alternate"].includes(normalized)) {
+      return "alternate-final";
+    }
+
+    if (["video", "clip"].includes(normalized)) {
+      return "video";
+    }
+
+    if (["turntable", "spin"].includes(normalized)) {
+      return "turntable";
+    }
+
+    if (["texture-lookdev", "texture", "lookdev", "look-dev", "materials"].includes(normalized)) {
+      return "texture-lookdev";
+    }
+
+    if (["wip", "work-in-progress", "work in progress", "progress", "rough", "blockout", "sketch", "in-progress"].includes(normalized)) {
       return "wip";
     }
 
-    if (["bts", "behind-the-scenes", "behind the scenes", "viewport", "wireframe", "clay", "breakdown"].includes(normalized)) {
-      return "bts";
+    if (["bts", "process", "behind-the-scenes", "behind the scenes", "viewport", "wireframe", "clay", "breakdown"].includes(normalized)) {
+      return "process";
     }
 
-    return normalizeSection(section) === "wips" ? "wip" : "finished";
+    return normalizeSection(section) === "wips" ? "wip" : "final";
   }
 
   function normalizeMediaAsset(asset, section = "art") {
@@ -195,7 +211,7 @@
           caption: "",
           type: "image",
           poster: "",
-          stage: "finished",
+          stage: "final",
         },
       ],
     };
@@ -217,6 +233,7 @@
       madeIn: coerceArray(row.made_in).filter(Boolean),
       thumbnail: normalizeThumbnailAsset(coerceObject(row.thumbnail)),
       media: coerceArray(row.media).map((asset) => normalizeMediaAsset(asset, section)).filter(Boolean),
+      updatedAt: row.updated_at || "",
     };
   }
 
@@ -239,7 +256,7 @@
       media,
     };
 
-    if (project.id) {
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(project.id || "")) {
       row.id = project.id;
     }
 
