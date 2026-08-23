@@ -18,6 +18,7 @@ const projectId = document.getElementById("projectId");
 const projectSlug = document.getElementById("projectSlug");
 const projectSection = document.getElementById("projectSection");
 const projectStatus = document.getElementById("projectStatus");
+const projectBadge = document.getElementById("projectBadge");
 const projectTitle = document.getElementById("projectTitle");
 const projectDateLabel = document.getElementById("projectDateLabel");
 const projectSortOrder = document.getElementById("projectSortOrder");
@@ -196,7 +197,8 @@ function createBlankProject() {
   return {
     ...portfolioAdminApi.createEmptyProject(),
     sortOrder: highestSortOrder + 1,
-    status: "draft",
+    status: "",
+    publicationStatus: "draft",
     section: "art",
     media: [createEmptyMedia()],
   };
@@ -219,7 +221,7 @@ function setEditorEnabled(enabled) {
 
 function formatProjectMeta(project) {
   const mediaCount = Array.isArray(project.media) ? project.media.length : 0;
-  return [project.dateLabel || "No timeline label", project.section || "art", project.status || "draft", `${mediaCount} items`].join(" • ");
+  return [project.dateLabel || "No timeline label", project.section || "art", project.publicationStatus || "draft", `${mediaCount} items`].join(" • ");
 }
 
 function renderProjectList() {
@@ -296,7 +298,8 @@ function syncFormWithProject(project) {
   projectId.value = nextProject.id || "";
   projectSlug.value = nextProject.slug || "";
   projectSection.value = nextProject.section || "art";
-  projectStatus.value = nextProject.status || "draft";
+  projectStatus.value = nextProject.publicationStatus || (["draft", "published"].includes(nextProject.status) ? nextProject.status : "published");
+  projectBadge.value = ["draft", "published"].includes(nextProject.status) ? "" : nextProject.status || "";
   projectTitle.value = nextProject.title || "";
   projectDateLabel.value = nextProject.dateLabel || "";
   projectSortOrder.value = Number.isFinite(Number(nextProject.sortOrder)) ? String(nextProject.sortOrder) : "";
@@ -498,7 +501,8 @@ function readProjectForm() {
     id: projectId.value.trim(),
     slug: projectSlug.value.trim(),
     section: projectSection.value,
-    status: projectStatus.value,
+    status: projectBadge.value.trim(),
+    publicationStatus: projectStatus.value,
     title: projectTitle.value.trim(),
     text: projectText.value.trim(),
     dateLabel: projectDateLabel.value.trim(),
