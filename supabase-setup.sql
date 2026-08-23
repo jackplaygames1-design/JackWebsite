@@ -10,6 +10,7 @@ create table if not exists public.portfolio_projects (
   slug text not null unique,
   section text not null default 'art' check (section in ('art', 'wips')),
   status text not null default 'draft' check (status in ('draft', 'published')),
+  badge_label text not null default '',
   title text not null,
   description text not null default '',
   date_label text not null default '',
@@ -20,6 +21,9 @@ create table if not exists public.portfolio_projects (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.portfolio_projects
+add column if not exists badge_label text not null default '';
 
 create or replace function public.set_updated_at()
 returns trigger
