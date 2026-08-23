@@ -180,7 +180,8 @@
       id: "",
       slug: "",
       section: "art",
-      status: "draft",
+      status: "",
+      publicationStatus: "draft",
       title: "",
       text: "",
       dateLabel: "",
@@ -207,7 +208,8 @@
       id: row.id || "",
       slug: row.slug || "",
       section,
-      status: row.status || "published",
+      status: row.badge_label || "",
+      publicationStatus: row.status || "published",
       title: row.title || "",
       text: row.description || "",
       dateLabel: row.date_label || "",
@@ -226,7 +228,8 @@
     const row = {
       slug,
       section,
-      status: project.status || "draft",
+      status: project.publicationStatus === "draft" ? "draft" : "published",
+      badge_label: project.status?.trim() || "",
       title: project.title?.trim() || "",
       description: project.text || "",
       date_label: project.dateLabel || "",
@@ -401,7 +404,7 @@
           slug: uniqueSlug,
           sortOrder: Number.isFinite(Number(item.sortOrder)) ? Number(item.sortOrder) : sourceItems.length - index,
           section: normalizeSection(item.section),
-          status: item.status || "published",
+          publicationStatus: item.publicationStatus === "draft" ? "draft" : "published",
         });
       })
       .filter(Boolean);
