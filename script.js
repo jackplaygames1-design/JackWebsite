@@ -979,6 +979,8 @@ function createPortfolioPreview(media) {
   image.src = getPortfolioMediaPreviewSrc(media);
   image.alt = media.alt || (media.type === "video" ? "Portfolio clip preview" : "Portfolio preview");
   image.className = "portfolio-post-preview";
+  image.loading = "lazy";
+  image.decoding = "async";
 
   return image;
 }
@@ -1498,6 +1500,8 @@ function initPortfolioGallery() {
       image.className = "portfolio-lightbox-thumb-preview";
       image.src = getPortfolioMediaPreviewSrc(media);
       image.alt = media.alt || (media.type === "video" ? "Portfolio clip thumbnail" : "Portfolio thumbnail");
+      image.loading = "lazy";
+      image.decoding = "async";
       button.append(image);
 
       if (media.type === "video") {
