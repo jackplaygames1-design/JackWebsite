@@ -30,7 +30,7 @@ window.portfolioItems = [
     status: "Upcoming",
     link: "dont-fret.html",
     linkLabel: "Open Featured Project",
-    thumbnail: "Dont Fret high quality banner.png",
+    thumbnail: "dont-fret-banner.webp",
     media: [
       {
         src: "Dont Fret high quality banner.png",
@@ -962,7 +962,7 @@ window.portfolioCredits = [
     type: "Game",
     role: "3D Character Contribution",
     text: "Contributed character modeling, design tweaks, retopology, optimization, and high poly sculpting work for the project.",
-    image: "Dont Fret high quality banner.png",
+    image: "dont-fret-banner.webp",
     alt: "High quality Don't Fret banner art",
     status: "In Development",
     link: "dont-fret.html",

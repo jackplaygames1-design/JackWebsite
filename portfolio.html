@@ -3,77 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio | Jack Sockwell</title>
-  <meta name="description" content="Portfolio work by Jack Sockwell." />
-  <link rel="stylesheet" href="styles.css?v=20260410-soft1" />
+  <title>Work — Jack Sockwell, 3D Character Artist</title>
+  <meta name="description" content="Selected character art, production work, studies, and game credits by 3D character artist Jack Sockwell." />
+  <meta name="theme-color" content="#15131a" />
+  <link rel="canonical" href="https://jacksockwell.com/portfolio.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="site-v2.css?v=20260823-work1" />
 </head>
-<body class="page-portfolio">
-  <main class="site-shell" id="siteShell">
-    <section class="portfolio-page">
-      <div class="portfolio-topbar">
-        <div class="portfolio-heading">
-          <p>Pick where you want to go</p>
-          <h1>Portfolio</h1>
-        </div>
+<body class="v2-site v2-portfolio">
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-        <a class="back-link" href="index.html">Back Home</a>
+  <header class="site-header">
+    <a class="site-brand" href="index.html" aria-label="Jack Sockwell, home">
+      <span class="brand-mark" aria-hidden="true">JS</span>
+      <span class="brand-copy"><strong>Jack Sockwell</strong><span>3D Character Artist</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="is-current" href="portfolio.html" aria-current="page">Work</a>
+      <a href="dont-fret.html">Don&rsquo;t Fret</a>
+      <a href="about.html">About</a>
+      <a class="nav-cta" href="about.html#contact-panel">Let&rsquo;s work together</a>
+    </nav>
+  </header>
+
+  <main id="main-content" class="work-page">
+    <section class="work-hero">
+      <p class="eyebrow">Selected work / 2021—2026</p>
+      <h1>Built to feel alive.</h1>
+      <div class="work-hero-foot">
+        <p>Characters, scenes, fan studies, production pieces, and the process behind them. Open any project to see the full set.</p>
+        <span><b id="portfolioProjectCount">28</b> projects <i aria-hidden="true">✦</i> <b id="portfolioMediaCount">145</b> images &amp; breakdowns</span>
+      </div>
+    </section>
+
+    <section class="portfolio-workspace" id="portfolioLauncher" aria-label="Portfolio sections">
+      <div class="portfolio-toolbar">
+        <nav class="portfolio-tabs" aria-label="Filter portfolio">
+          <button class="portfolio-tab is-active" data-portfolio-view="artwork" type="button">Selected work</button>
+          <button class="portfolio-tab" data-portfolio-view="wips" type="button">WIPs &amp; process</button>
+          <button class="portfolio-tab" data-portfolio-view="resume" type="button">Game credits</button>
+        </nav>
+        <p>Newest first · Click a card for the complete project</p>
       </div>
 
-      <section class="portfolio-rail">
-        <section class="portfolio-launcher" id="portfolioLauncher" aria-label="Choose portfolio section">
-          <div class="portfolio-launcher-copy">
-            <div class="portfolio-launcher-message">
-              <p class="portfolio-launcher-rotator" id="portfolioLauncherRotator">
-                Thank you for checking my stuff out! Pick an option below
-              </p>
-            </div>
+      <div class="portfolio-content" id="portfolioContent">
+        <section class="portfolio-panel" data-portfolio-panel="artwork" aria-labelledby="portfolio-artwork-heading">
+          <h2 class="sr-only" id="portfolio-artwork-heading">Selected artwork</h2>
+          <div class="portfolio-timeline" id="portfolioPostGrid" aria-label="Portfolio projects"></div>
+        </section>
+
+        <section class="portfolio-panel" data-portfolio-panel="wips" aria-labelledby="portfolio-wips-heading" hidden>
+          <div class="panel-intro">
+            <p class="eyebrow">Behind the final render</p>
+            <h2 id="portfolio-wips-heading">Work in progress</h2>
+            <p>Rough passes, viewport work, and ongoing studies live here without crowding the finished wall.</p>
           </div>
-
-          <nav class="portfolio-tabs" aria-label="Portfolio sections">
-            <button class="portfolio-tab portfolio-tab-art" data-portfolio-view="artwork" type="button">Art</button>
-            <button class="portfolio-tab portfolio-tab-wips" data-portfolio-view="wips" type="button">WIPs</button>
-            <button class="portfolio-tab portfolio-tab-resume" data-portfolio-view="resume" type="button">Resume</button>
-            <a class="portfolio-tab portfolio-tab-shop" href="shop.html">Shop</a>
-          </nav>
+          <div class="portfolio-timeline" id="portfolioWipGrid" aria-label="Work in progress projects"></div>
         </section>
 
-        <section class="portfolio-content" id="portfolioContent" hidden>
-          <section class="portfolio-section portfolio-panel" data-portfolio-panel="artwork" aria-labelledby="portfolio-artwork-heading">
-            <div class="portfolio-summary">
-              <h2 id="portfolio-artwork-heading">Artwork</h2>
-              <p>Finished projects live here, while each project can still carry WIPs and BTS images inside the viewer when you want to show the whole process.</p>
-            </div>
-
-            <div class="portfolio-timeline" id="portfolioPostGrid" aria-label="Portfolio posts"></div>
-          </section>
-
-          <section class="portfolio-section portfolio-panel" data-portfolio-panel="wips" aria-labelledby="portfolio-wips-heading" hidden>
-            <div class="portfolio-summary">
-              <h2 id="portfolio-wips-heading">WIPs</h2>
-              <p>Ongoing studies, rough passes, and in-progress project dumps stay separate from the finished wall so you can show more without making the main portfolio feel crowded.</p>
-            </div>
-
-            <div class="portfolio-timeline" id="portfolioWipGrid" aria-label="Work in progress posts"></div>
-          </section>
-
-          <section class="portfolio-section portfolio-panel" data-portfolio-panel="resume" aria-labelledby="portfolio-resume-heading" hidden>
-            <div class="portfolio-summary">
-              <h2 id="portfolio-resume-heading">Resume</h2>
-            </div>
-
-            <div class="portfolio-credit-grid" id="portfolioCreditGrid" aria-label="Games and video contributions"></div>
-          </section>
+        <section class="portfolio-panel" data-portfolio-panel="resume" aria-labelledby="portfolio-resume-heading" hidden>
+          <div class="panel-intro">
+            <p class="eyebrow">Production experience</p>
+            <h2 id="portfolio-resume-heading">Game credits</h2>
+            <p>Public projects where I contributed character art and production work.</p>
+          </div>
+          <div class="portfolio-credit-grid" id="portfolioCreditGrid" aria-label="Games and project contributions"></div>
         </section>
-      </section>
+      </div>
+    </section>
+
+    <section class="work-next">
+      <p class="eyebrow">Need a character artist?</p>
+      <h2>Let&rsquo;s build the weird one.</h2>
+      <a class="button button-primary" href="about.html#contact-panel">Start a conversation <span aria-hidden="true">&rarr;</span></a>
     </section>
   </main>
 
-  <div class="portfolio-lightbox" id="portfolioLightbox" hidden>
-    <button class="portfolio-lightbox-close" id="portfolioLightboxClose" type="button" aria-label="Close viewer">Close</button>
+  <div class="portfolio-lightbox" id="portfolioLightbox" hidden role="dialog" aria-modal="true" aria-labelledby="portfolioLightboxTitle">
+    <button class="portfolio-lightbox-close" id="portfolioLightboxClose" type="button" aria-label="Close project viewer">Close <span aria-hidden="true">×</span></button>
     <figure class="portfolio-lightbox-frame">
       <div class="portfolio-lightbox-media-shell">
         <button class="portfolio-lightbox-nav portfolio-lightbox-prev" id="portfolioLightboxPrev" type="button" aria-label="Previous image">&larr;</button>
         <img class="portfolio-lightbox-media" id="portfolioLightboxImage" src="" alt="Portfolio enlarged image" />
+        <video class="portfolio-lightbox-media" id="portfolioLightboxVideo" controls playsinline hidden></video>
         <button class="portfolio-lightbox-nav portfolio-lightbox-next" id="portfolioLightboxNext" type="button" aria-label="Next image">&rarr;</button>
       </div>
       <figcaption class="portfolio-lightbox-caption">
@@ -87,11 +99,16 @@
     </figure>
   </div>
 
+  <footer class="site-footer">
+    <p>&copy; 2026 Jack Sockwell</p>
+    <div><a href="index.html">Home</a><a href="about.html">About</a><a href="mailto:jackplaygames1@gmail.com">Email</a></div>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="supabase-config.js?v=20260823-restored1"></script>
   <script src="supabase-shared.js?v=20260823-restored2"></script>
   <script src="portfolio-data.js?v=20260408-resume2"></script>
   <script src="portfolio-loader.js?v=20260407-admin1"></script>
-  <script src="script.js?v=20260407-admin1"></script>
+  <script src="script.js?v=20260823-modern1"></script>
 </body>
 </html>
