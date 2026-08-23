@@ -41,6 +41,10 @@ execute function public.set_updated_at();
 alter table public.app_admins enable row level security;
 alter table public.portfolio_projects enable row level security;
 
+grant select on table public.portfolio_projects to anon;
+grant select, insert, update, delete on table public.portfolio_projects to authenticated;
+grant select on table public.app_admins to authenticated;
+
 drop policy if exists "Admins can read admin table" on public.app_admins;
 create policy "Admins can read admin table"
 on public.app_admins
